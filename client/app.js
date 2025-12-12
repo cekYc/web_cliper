@@ -140,12 +140,14 @@ async function fetchSnippets() {
 function createCard(data) {
     const card = document.createElement('div');
     card.className = 'card';
+    // Silme işlemi için ID'yi karta attribute olarak ekleyelim, lazım olur.
+    card.setAttribute('data-id', data._id); 
+
     const date = new Date(data.timestamp).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
     let domain = '';
     try { domain = new URL(data.sourceUrl).hostname.replace('www.', ''); } catch (e) { domain = 'Link'; }
 
-    // HTML Yapısı
-    // Not: card-content içine 'fade-overlay' ekledik.
+    // HTML Yapısı (Footer kısmına Çöp Kutusu ekledik)
     card.innerHTML = `
         <div class="card-content" id="content-${data._id}">
             ${data.content}
@@ -155,15 +157,17 @@ function createCard(data) {
         <button class="expand-btn" onclick="toggleCard('${data._id}', this)">🔽 Devamını Göster</button>
 
         <div class="card-footer">
-            <span class="badge">${data.type}</span>
-            <a href="${data.sourceUrl}" target="_blank" style="color:#007bff; text-decoration:none;">🔗 ${domain}</a>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span class="badge">${data.type}</span>
+                <a href="${data.sourceUrl}" target="_blank" class="source-link" title="Kaynağa Git">🔗 ${domain}</a>
+            </div>
+            
+            <button class="delete-btn" onclick="deleteSnippet('${data._id}', this)" title="Sil">
+                🗑️
+            </button>
         </div>
     `;
     container.appendChild(card);
-    
-    // Ufak bir kontrol: Eğer içerik zaten çok kısaysa (180px'den azsa) butona gerek yok.
-    // Ancak resimlerin yüklenmesi zaman aldığı için bu hesaplama bazen şaşabilir. 
-    // Şimdilik her karta koyuyoruz, estetik olarak "Kapat/Aç" özelliği her zaman iyidir.
 }
 
 // Yeni ekleyeceğimiz Toggle Fonksiyonu (Bunu app.js'in en altına ekle)
@@ -215,3 +219,45 @@ document.addEventListener('keydown', (e) => {
         closeLightbox();
     }
 });
+
+
+async function deleteSnippet(id, btnElement) {
+    // 1. Kullanıcıya sor (Yanlışlıkla basmasın)
+    if (!confirm("Bu kaydı silmek istediğine emin misin?")) return;
+
+    const token = localStorage.getItem('token');
+
+    try {
+        const res = await fetch(`/api/delete/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (res.ok) {
+            // 2. Başarılıysa kartı ekrandan kaldır (Sayfayı yenilemeye gerek yok)
+            const card = btnElement.closest('.card');
+            
+            // Hafif bir kaybolma animasyonu yapalım
+            card.style.transition = 'opacity 0.5s, transform 0.5s';
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+                card.remove(); // DOM'dan tamamen sil
+                
+                // Eğer hiç kart kalmadıysa uyarı göster
+                if (document.querySelectorAll('.card').length === 0) {
+                    container.innerHTML = '<p style="text-align:center;">Henüz hiç kaydın yok.</p>';
+                }
+            }, 500);
+            
+        } else {
+            alert("Silinemedi! Bir hata oluştu.");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Sunucuya ulaşılamadı.");
+    }
+}

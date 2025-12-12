@@ -132,3 +132,22 @@ app.get('/api/list', authenticateToken, async (req, res) => {
 app.listen(PORT, () => {
     console.log(`🔒 Güvenli Sunucu http://localhost:${PORT} adresinde çalışıyor...`);
 });
+
+// 5. İÇERİK SİL (DELETE)
+app.delete('/api/delete/:id', authenticateToken, async (req, res) => {
+    try {
+        const snippetId = req.params.id;
+        const userId = req.user.id; // Token'dan gelen kullanıcı ID'si
+
+        // Hem ID'si tutan hem de Sahibi (userId) biz olan kaydı bul ve sil
+        const result = await Snippet.findOneAndDelete({ _id: snippetId, userId: userId });
+
+        if (!result) {
+            return res.status(404).json({ message: 'Kayıt bulunamadı veya yetkiniz yok.' });
+        }
+
+        res.json({ message: 'Başarıyla silindi.' });
+    } catch (error) {
+        res.status(500).json({ error: 'Silme işlemi başarısız.' });
+    }
+});
