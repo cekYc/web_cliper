@@ -147,14 +147,14 @@ function createCard(data) {
     let domain = '';
     try { domain = new URL(data.sourceUrl).hostname.replace('www.', ''); } catch (e) { domain = 'Link'; }
 
-    // HTML Yapısı (Footer kısmına Çöp Kutusu ekledik)
+    // HTML Yapısı
     card.innerHTML = `
         <div class="card-content" id="content-${data._id}">
             ${data.content}
             <div class="fade-overlay"></div>
         </div>
         
-        <button class="expand-btn" onclick="toggleCard('${data._id}', this)">🔽 Devamını Göster</button>
+        <button class="expand-btn" id="expand-${data._id}" onclick="toggleCard('${data._id}', this)">🔽 Devamını Göster</button>
 
         <div class="card-footer">
             <div>
@@ -166,21 +166,29 @@ function createCard(data) {
         </div>
     `;
     container.appendChild(card);
+    
+    // İçerik taşma kontrolü - DOM'a eklendikten sonra kontrol etmeliyiz
+    setTimeout(() => {
+        const contentDiv = document.getElementById(`content-${data._id}`);
+        const expandBtn = document.getElementById(`expand-${data._id}`);
+        
+        // İçerik 180px'den küçükse butonu gizle
+        if (contentDiv && contentDiv.scrollHeight <= 180) {
+            if (expandBtn) expandBtn.style.display = 'none';
+            // Fade overlay'i de kaldır
+            const fadeOverlay = contentDiv.querySelector('.fade-overlay');
+            if (fadeOverlay) fadeOverlay.style.display = 'none';
+        }
+    }, 0);
 }
 
 // Yeni ekleyeceğimiz Toggle Fonksiyonu (Bunu app.js'in en altına ekle)
 function toggleCard(id, btn) {
     const contentDiv = document.getElementById(`content-${id}`);
+    const content = contentDiv.innerHTML;
     
-    // 'expanded' sınıfını ekle/çıkar (toggle)
-    contentDiv.classList.toggle('expanded');
-
-    // Buton metnini değiştir
-    if (contentDiv.classList.contains('expanded')) {
-        btn.innerText = "🔼 Daha Az Göster";
-    } else {
-        btn.innerText = "🔽 Devamını Göster";
-    }
+    // Modal'ı aç ve içeriği göster
+    openContentModal(content);
 }
 
 
@@ -215,6 +223,7 @@ function closeLightbox() {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeLightbox();
+        closeContentModal();
     }
 });
 
@@ -258,4 +267,24 @@ async function deleteSnippet(id, btnElement) {
         console.error(err);
         alert("Sunucuya ulaşılamadı.");
     }
+}
+
+// --- CONTENT MODAL İŞLEMLERİ ---
+
+function openContentModal(content) {
+    const modal = document.getElementById('content-modal');
+    const modalBody = document.getElementById('modal-body');
+    
+    modalBody.innerHTML = content;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeContentModal(event) {
+    // event varsa ve modal dışında tıklandıysa kapat
+    if (event && event.target.id !== 'content-modal') return;
+    
+    const modal = document.getElementById('content-modal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
 }

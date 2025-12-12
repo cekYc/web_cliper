@@ -46,6 +46,13 @@
         <img id="lightbox-img" src="" alt="Tam Ekran">
     </div>
 
+    <div id="content-modal" class="modal" onclick="closeContentModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeContentModal()">✕</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
