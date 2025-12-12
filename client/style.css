@@ -1,83 +1,93 @@
+/* GENEL AYARLAR */
 body {
     background-color: #f4f7f6;
     font-family: 'Inter', sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     color: #333;
 }
 
-header {
+/* AUTH EKRANI TASARIMI */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Tam ekran ortala */
+}
+
+.auth-box {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 300px;
     text-align: center;
-    margin-bottom: 40px;
 }
 
-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: #2c3e50;
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box; /* Padding taşmasını önler */
 }
 
-/* KARTLARI TUTAN IZGARA (GRID) */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 10px;
+}
+button:hover { background-color: #1a252f; }
+.btn-secondary { background-color: #27ae60; }
+.btn-secondary:hover { background-color: #219150; }
+
+.switch-msg { font-size: 0.9rem; margin-top: 15px; }
+.error-msg { color: red; font-size: 0.9rem; margin-top: 10px; }
+
+/* APP EKRANI TASARIMI */
+header {
+    background: white;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#logout-btn {
+    width: auto;
+    background: #e74c3c;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+}
+
+/* KARTLAR (Öncekiyle aynı) */
 #card-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px 40px 20px;
 }
-
-/* KART TASARIMI */
 .card {
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     padding: 20px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* Taşmaları engelle */
+    display: flex; flex-direction: column; overflow: hidden;
 }
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-}
-
-.card-content {
-    margin-bottom: 15px;
-    line-height: 1.6;
-    font-size: 0.95rem;
-}
-
-/* Resimler kartın dışına taşmasın */
-.card-content img {
-    max-width: 100%;
-    border-radius: 8px;
-    display: block;
-    margin: 0 auto;
-}
-
-.card-footer {
-    margin-top: auto; /* Footer'ı en alta it */
-    font-size: 0.8rem;
-    color: #888;
-    border-top: 1px solid #eee;
-    padding-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.source-link {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.badge {
-    background: #eef2f5;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-}
+.card-content img { max-width: 100%; border-radius: 8px; display: block; margin: 0 auto; }
+.card-footer { margin-top: auto; font-size: 0.8rem; color: #888; border-top: 1px solid #eee; padding-top: 10px; }
+.badge { background: #eef2f5; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; text-transform: uppercase; }

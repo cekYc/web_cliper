@@ -9,13 +9,38 @@
 </head>
 <body>
 
-    <header>
-        <h1>🧠 Dijital Beynim</h1>
-        <p>İnternetten topladığım inciler.</p>
-    </header>
+    <div id="auth-screen" class="container">
+        <div class="auth-box">
+            <h2 id="auth-title">Giriş Yap</h2>
+            
+            <form id="login-form">
+                <input type="text" id="l-username" placeholder="Kullanıcı Adı" required>
+                <input type="password" id="l-password" placeholder="Şifre" required>
+                <button type="submit">Giriş Yap</button>
+                <p class="switch-msg">Hesabın yok mu? <a href="#" id="go-to-register">Kayıt Ol</a></p>
+            </form>
 
-    <main id="card-container">
-        </main>
+            <form id="register-form" style="display: none;">
+                <input type="text" id="r-username" placeholder="Kullanıcı Adı Seç" required>
+                <input type="password" id="r-password" placeholder="Şifre Seç" required>
+                <button type="submit" class="btn-secondary">Kayıt Ol</button>
+                <p class="switch-msg">Zaten hesabın var mı? <a href="#" id="go-to-login">Giriş Yap</a></p>
+            </form>
+            <div id="auth-error" class="error-msg"></div>
+        </div>
+    </div>
+
+    <div id="app-screen" style="display: none;">
+        <header>
+            <div class="header-content">
+                <h1>🧠 Dijital Beynim</h1>
+                <button id="logout-btn">Çıkış Yap (<span id="display-user"></span>)</button>
+            </div>
+        </header>
+
+        <main id="card-container">
+            </main>
+    </div>
 
     <script src="app.js"></script>
 </body>

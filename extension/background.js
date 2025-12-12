@@ -1,44 +1,60 @@
 // extension/background.js
 
-// 1. Eklenti ilk yüklendiğinde Sağ Tık Menüsünü oluştur
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "save-image-to-clipper",
     title: "Bu Resmi Koleksiyona Ekle",
-    contexts: ["image"] // Sadece resimlerin üzerinde çıkar
+    contexts: ["image"]
   });
 });
 
-// 2. Menüye tıklandığında ne olsun?
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "save-image-to-clipper") {
     
-    const imageUrl = info.srcUrl;
-    const pageUrl = info.pageUrl;
+    // 1. Önce Token'ı Al
+    chrome.storage.local.get(['token'], (result) => {
+      const token = result.token;
 
-    // Resmi HTML etiketi içine sarıp gönderiyoruz ki panelde görebilelim
-    const content = `<img src="${imageUrl}" style="max-width: 100%; border-radius: 8px;" />`;
+      if (!token) {
+        // Eğer giriş yapılmamışsa uyarı ver
+        chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            function: () => alert("⚠️ Lütfen önce eklenti ikonuna tıklayıp giriş yapın!")
+        });
+        return;
+      }
 
-    // Sunucuya fırlat
-    fetch('http://localhost:3000/api/save', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        content: content,
-        sourceUrl: pageUrl,
-        type: 'image'
+      const imageUrl = info.srcUrl;
+      const pageUrl = info.pageUrl;
+      const content = `<img src="${imageUrl}" style="max-width: 100%; border-radius: 8px;" />`;
+
+      // 2. Token ile birlikte gönder
+      fetch('http://localhost:3000/api/save', {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Jeton eklendi
+        },
+        body: JSON.stringify({
+          content: content,
+          sourceUrl: pageUrl,
+          type: 'image'
+        })
       })
-    })
-    .then(response => response.json())
-    .then(data => {
-      // İşlem başarılıysa kullanıcıya sayfada bildirim ver
-      chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: () => alert("📸 Resim Başarıyla Kaydedildi!")
-      });
-    })
-    .catch(error => {
-      console.error('Hata:', error);
+      .then(response => {
+          if(response.ok) {
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                function: () => alert("📸 Resim Koleksiyona Eklendi!")
+            });
+          } else {
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                function: () => alert("❌ Kayıt başarısız! Oturumunuzu kontrol edin.")
+            });
+          }
+      })
+      .catch(error => console.error('Hata:', error));
     });
   }
 });

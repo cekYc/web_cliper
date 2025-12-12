@@ -3,7 +3,7 @@
   "name": "Benim Web Clipper'ım",
   "version": "1.0",
   "description": "Seçili alanı veya resmi sunucuya kaydeder.",
-  "permissions": ["activeTab", "scripting", "contextMenus"],
+  "permissions": ["activeTab", "scripting", "contextMenus", "storage"],
   "background": {
     "service_worker": "background.js"
   },
