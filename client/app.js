@@ -157,14 +157,12 @@ function createCard(data) {
         <button class="expand-btn" onclick="toggleCard('${data._id}', this)">🔽 Devamını Göster</button>
 
         <div class="card-footer">
-            <div style="display:flex; align-items:center; gap:10px;">
+            <div>
                 <span class="badge">${data.type}</span>
-                <a href="${data.sourceUrl}" target="_blank" class="source-link" title="Kaynağa Git">🔗 ${domain}</a>
+                <span style="margin-left: 10px; font-size: 12px; color: var(--text-secondary);">${date}</span>
             </div>
-            
-            <button class="delete-btn" onclick="deleteSnippet('${data._id}', this)" title="Sil">
-                🗑️
-            </button>
+            <a href="${data.sourceUrl}" target="_blank" class="source-link" title="Kaynağa Git">🔗 ${domain}</a>
+            <button class="delete-btn" onclick="deleteSnippet('${data._id}', this)" title="Sil">🗑️</button>
         </div>
     `;
     container.appendChild(card);

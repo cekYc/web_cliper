@@ -1,10 +1,27 @@
 /* GENEL AYARLAR */
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --success: #10b981;
+    --danger: #ef4444;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --bg-light: #f9fafb;
+    --bg-white: #ffffff;
+    --border-color: #e5e7eb;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
 body {
-    background-color: #f4f7f6;
-    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     margin: 0;
     padding: 0;
-    color: #333;
+    color: var(--text-primary);
+    line-height: 1.5;
 }
 
 /* AUTH EKRANI TASARIMI */
@@ -12,116 +29,210 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Tam ekran ortala */
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .auth-box {
-    background: white;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    width: 300px;
+    background: var(--bg-white);
+    padding: 48px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-xl);
+    width: 380px;
     text-align: center;
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.auth-box h2 {
+    font-size: 28px;
+    margin-bottom: 28px;
+    color: var(--text-primary);
+    font-weight: 700;
 }
 
 input {
     width: 100%;
-    padding: 12px;
+    padding: 14px 16px;
     margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-sizing: border-box; /* Padding taşmasını önler */
+    border: 1.5px solid var(--border-color);
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: var(--bg-white);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+input::placeholder {
+    color: var(--text-secondary);
 }
 
 button {
     width: 100%;
-    padding: 12px;
-    background-color: #2c3e50;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 12px;
     cursor: pointer;
     font-weight: 600;
-    margin-top: 10px;
+    font-size: 15px;
+    margin-top: 12px;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
 }
-button:hover { background-color: #1a252f; }
-.btn-secondary { background-color: #27ae60; }
-.btn-secondary:hover { background-color: #219150; }
 
-.switch-msg { font-size: 0.9rem; margin-top: 15px; }
-.error-msg { color: red; font-size: 0.9rem; margin-top: 10px; }
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+}
+
+.switch-msg {
+    font-size: 14px;
+    margin-top: 20px;
+    color: var(--text-secondary);
+}
+
+.switch-msg a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.switch-msg a:hover {
+    color: var(--primary-dark);
+}
+
+.error-msg {
+    color: var(--danger);
+    font-size: 13px;
+    margin-top: 12px;
+    padding: 10px;
+    background: #fee2e2;
+    border-radius: 8px;
+    border-left: 3px solid var(--danger);
+}
 
 /* APP EKRANI TASARIMI */
 header {
-    background: white;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    margin-bottom: 30px;
+    background: var(--bg-white);
+    padding: 24px 0;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border-color);
 }
+
+header h1 {
+    font-size: 28px;
+    margin: 0;
+    font-weight: 700;
+}
+
 .header-content {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 24px;
 }
+
 #logout-btn {
     width: auto;
-    background: #e74c3c;
-    padding: 8px 15px;
-    font-size: 0.9rem;
+    background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 10px;
 }
 
-/* KARTLAR (Öncekiyle aynı) */
+/* KARTLAR */
 #card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    max-width: 1200px;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px 40px 20px;
+    padding: 0 24px 60px 24px;
 }
+
 .card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    padding: 20px;
-    display: flex; flex-direction: column; overflow: hidden;
+    background: var(--bg-white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
 }
 
-/* KART İÇERİK ALANI (GÜNCELLENDİ) */
+.card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+}
+
+/* KART İÇERİK ALANI */
 .card-content {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     line-height: 1.6;
-    font-size: 0.95rem;
-    
-    /* YENİ EKLENENLER: Yükseklik Sınırlama */
-    max-height: 180px;       /* Maksimum bu kadar yüksek olsun */
-    overflow: hidden;        /* Taşan kısmı gizle */
-    position: relative;      /* İçine koyacağımız sis efekti için */
-    transition: max-height 0.4s ease; /* Açılırken yumuşak geçiş */
+    font-size: 15px;
+    max-height: 180px;
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-primary);
 }
 
-.card-content img { max-width: 100%; border-radius: 8px; display: block; margin: 0 auto; }
+.card-content img {
+    max-width: 100%;
+    border-radius: 12px;
+    display: block;
+    margin: 12px auto;
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+}
 
-/* Kart açıldığında bu sınıfı ekleyeceğiz */
+.card-content img:hover {
+    transform: scale(1.02);
+}
+
 .card-content.expanded {
-    max-height: 2000px; /* Yeterince büyük bir değer veriyoruz ki hepsi görünsün */
+    max-height: 2000px;
 }
 
-/* SİS EFEKTİ (Fade Out) */
+/* SİS EFEKTİ */
 .fade-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 60px; /* Son 60px'i flulaştır */
-    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
-    pointer-events: none; /* Tıklamayı engellemesin */
-    transition: opacity 0.3s;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--bg-white));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
-/* Kart açıldığında sis efektini gizle */
 .card-content.expanded .fade-overlay {
     opacity: 0;
 }
@@ -130,74 +241,76 @@ header {
 .expand-btn {
     display: block;
     width: 100%;
-    background: none;
-    border: 1px dashed #ccc; /* Şık, kesikli bir çizgi */
-    border-radius: 6px;
-    padding: 8px;
-    color: #555;
+    background: var(--bg-light);
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    padding: 11px 16px;
+    color: var(--text-secondary);
     cursor: pointer;
-    font-size: 0.8rem;
-    margin-bottom: 10px;
-    transition: all 0.2s;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+    font-family: inherit;
 }
 
 .expand-btn:hover {
-    background-color: #f9f9f9;
-    border-color: #999;
-    color: #333;
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: white;
 }
 
-.card-footer { margin-top: auto; font-size: 0.8rem; color: #888; border-top: 1px solid #eee; padding-top: 10px; }
+/* KART FOOTER */
+.card-footer {
+    margin-top: auto;
+    font-size: 12px;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.badge {
+    background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+    color: var(--primary);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.source-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.source-link:hover {
+    color: var(--primary-dark);
+}
 .badge { background: #eef2f5; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; text-transform: uppercase; }
 
 
-/* KART İÇİNDEKİ RESİMLER */
-.card-content img {
-    max-width: 100%;
-    border-radius: 8px;
-    display: block;
-    margin: 0 auto;
-    cursor: zoom-in; /* Üzerine gelince büyüteç çıksın */
-    transition: transform 0.2s;
-}
-
-.card-content img:hover {
-    opacity: 0.9;
-}
-
 /* LIGHTBOX (SİNEMA MODU) */
 .lightbox {
-    display: none; /* Başlangıçta gizli */
+    display: none;
     position: fixed;
-    z-index: 1000; /* Her şeyin üstünde */
+    z-index: 1000;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9); /* Arkaplanı karart */
+    background-color: rgba(0, 0, 0, 0.95);
     justify-content: center;
     align-items: center;
     cursor: zoom-out;
-    animation: fadeIn 0.3s;
-}
-
-.lightbox img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 5px;
-    box-shadow: 0 0 20px rgba(255,255,255,0.2);
-    object-fit: contain;
-}
-
-.close-btn {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    color: white;
-    font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 1001;
+    animation: fadeIn 0.3s ease-out;
+    backdrop-filter: blur(4px);
 }
 
 @keyframes fadeIn {
@@ -205,23 +318,60 @@ header {
     to { opacity: 1; }
 }
 
+.lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    object-fit: contain;
+    animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close-btn {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: white;
+    font-size: 48px;
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.2s ease;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn:hover {
+    transform: scale(1.2);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
 
 /* SİLME BUTONU */
 .delete-btn {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 1.1rem;
-    padding: 5px;
-    border-radius: 50%;
-    transition: background 0.2s, transform 0.2s;
-    width: auto; /* Genel button stilini eziyoruz */
-    margin-top: 0; /* Genel button stilini eziyoruz */
-    color: #555;
+    font-size: 18px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    width: auto;
+    margin-top: 0;
+    color: var(--text-secondary);
+    font-weight: 600;
 }
 
 .delete-btn:hover {
-    background-color: #fee2e2; /* Açık kırmızı */
-    transform: scale(1.1);
-    filter: grayscale(0); /* Renkli olsun */
+    background-color: #fee2e2;
+    color: var(--danger);
+    transform: scale(1.05);
 }
