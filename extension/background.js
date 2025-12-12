@@ -58,3 +58,16 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     });
   }
 });
+
+
+// YENİ: Ekran Görüntüsü Mesajını Dinle
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "captureVisibleTab") {
+    // Aktif sekmenin görünür kısmının fotoğrafını çek (Native Chrome API)
+    chrome.tabs.captureVisibleTab(null, { format: "png" }, (dataUrl) => {
+      // Fotoğraf verisini (Base64) geri gönder
+      sendResponse(dataUrl);
+    });
+    return true; // Asenkron yanıt vereceğimizi belirtiyoruz
+  }
+});

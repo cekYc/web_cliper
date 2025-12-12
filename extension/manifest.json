@@ -11,7 +11,11 @@
     "default_popup": "popup.html",
     "default_icon": "icon.png"
   },
-  "host_permissions": [
-    "http://localhost:3000/*"
+  "host_permissions": ["http://localhost:3000/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["html2canvas.min.js"],
+      "matches": ["<all_urls>"]
+    }
   ]
 }

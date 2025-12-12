@@ -12,7 +12,8 @@ const PORT = 3000;
 const SECRET_KEY = 'cok-gizli-bir-anahtar-kelime'; // Normalde .env dosyasında saklanır!
 
 app.use(cors());
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, '../client')));
 
 // --- VERİTABANI BAĞLANTISI ---

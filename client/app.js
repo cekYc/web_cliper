@@ -180,3 +180,38 @@ function toggleCard(id, btn) {
         btn.innerText = "🔽 Devamını Göster";
     }
 }
+
+
+// --- LIGHTBOX İŞLEMLERİ ---
+
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+
+// Olay Yakalayıcı (Event Delegation)
+// Kartların içindeki herhangi bir resme tıklandığında çalışır
+document.getElementById('card-container').addEventListener('click', (e) => {
+    // Tıklanan şey bir IMG etiketi mi?
+    if (e.target.tagName === 'IMG') {
+        const src = e.target.src;
+        openLightbox(src);
+    }
+});
+
+function openLightbox(src) {
+    lightboxImg.src = src;
+    lightbox.style.display = 'flex'; // Göster
+    document.body.style.overflow = 'hidden'; // Arka planda kaydırmayı engelle
+}
+
+function closeLightbox() {
+    lightbox.style.display = 'none'; // Gizle
+    lightboxImg.src = '';
+    document.body.style.overflow = 'auto'; // Kaydırmayı tekrar aç
+}
+
+// ESC tuşuna basınca da kapansın
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeLightbox();
+    }
+});
