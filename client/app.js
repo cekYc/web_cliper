@@ -135,6 +135,8 @@ async function fetchSnippets() {
 }
 
 // --- KART OLUŞTURUCU (Değişmedi) ---
+// client/app.js içindeki createCard fonksiyonu
+
 function createCard(data) {
     const card = document.createElement('div');
     card.className = 'card';
@@ -142,12 +144,39 @@ function createCard(data) {
     let domain = '';
     try { domain = new URL(data.sourceUrl).hostname.replace('www.', ''); } catch (e) { domain = 'Link'; }
 
+    // HTML Yapısı
+    // Not: card-content içine 'fade-overlay' ekledik.
     card.innerHTML = `
-        <div class="card-content">${data.content}</div>
+        <div class="card-content" id="content-${data._id}">
+            ${data.content}
+            <div class="fade-overlay"></div>
+        </div>
+        
+        <button class="expand-btn" onclick="toggleCard('${data._id}', this)">🔽 Devamını Göster</button>
+
         <div class="card-footer">
             <span class="badge">${data.type}</span>
             <a href="${data.sourceUrl}" target="_blank" style="color:#007bff; text-decoration:none;">🔗 ${domain}</a>
         </div>
     `;
     container.appendChild(card);
+    
+    // Ufak bir kontrol: Eğer içerik zaten çok kısaysa (180px'den azsa) butona gerek yok.
+    // Ancak resimlerin yüklenmesi zaman aldığı için bu hesaplama bazen şaşabilir. 
+    // Şimdilik her karta koyuyoruz, estetik olarak "Kapat/Aç" özelliği her zaman iyidir.
+}
+
+// Yeni ekleyeceğimiz Toggle Fonksiyonu (Bunu app.js'in en altına ekle)
+function toggleCard(id, btn) {
+    const contentDiv = document.getElementById(`content-${id}`);
+    
+    // 'expanded' sınıfını ekle/çıkar (toggle)
+    contentDiv.classList.toggle('expanded');
+
+    // Buton metnini değiştir
+    if (contentDiv.classList.contains('expanded')) {
+        btn.innerText = "🔼 Daha Az Göster";
+    } else {
+        btn.innerText = "🔽 Devamını Göster";
+    }
 }

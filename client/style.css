@@ -88,6 +88,64 @@ header {
     padding: 20px;
     display: flex; flex-direction: column; overflow: hidden;
 }
+
+/* KART İÇERİK ALANI (GÜNCELLENDİ) */
+.card-content {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    
+    /* YENİ EKLENENLER: Yükseklik Sınırlama */
+    max-height: 180px;       /* Maksimum bu kadar yüksek olsun */
+    overflow: hidden;        /* Taşan kısmı gizle */
+    position: relative;      /* İçine koyacağımız sis efekti için */
+    transition: max-height 0.4s ease; /* Açılırken yumuşak geçiş */
+}
+
 .card-content img { max-width: 100%; border-radius: 8px; display: block; margin: 0 auto; }
+
+/* Kart açıldığında bu sınıfı ekleyeceğiz */
+.card-content.expanded {
+    max-height: 2000px; /* Yeterince büyük bir değer veriyoruz ki hepsi görünsün */
+}
+
+/* SİS EFEKTİ (Fade Out) */
+.fade-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* Son 60px'i flulaştır */
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+    pointer-events: none; /* Tıklamayı engellemesin */
+    transition: opacity 0.3s;
+}
+
+/* Kart açıldığında sis efektini gizle */
+.card-content.expanded .fade-overlay {
+    opacity: 0;
+}
+
+/* DEVAMINI GÖSTER BUTONU */
+.expand-btn {
+    display: block;
+    width: 100%;
+    background: none;
+    border: 1px dashed #ccc; /* Şık, kesikli bir çizgi */
+    border-radius: 6px;
+    padding: 8px;
+    color: #555;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+}
+
+.expand-btn:hover {
+    background-color: #f9f9f9;
+    border-color: #999;
+    color: #333;
+}
+
 .card-footer { margin-top: auto; font-size: 0.8rem; color: #888; border-top: 1px solid #eee; padding-top: 10px; }
 .badge { background: #eef2f5; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; text-transform: uppercase; }
