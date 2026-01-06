@@ -114,8 +114,14 @@ export default function Dashboard() {
   }
 
   const filteredClips = clips.filter(clip => {
-    const matchesSearch = clip.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         clip.sourceUrl?.toLowerCase().includes(searchTerm.toLowerCase())
+    // ÖNCE KONTROL ET: clip.content var mı? Yoksa boş string kabul et.
+    const safeContent = clip.content ? clip.content.toLowerCase() : '';
+    const safeSource = clip.sourceUrl ? clip.sourceUrl.toLowerCase() : '';
+    const searchLower = searchTerm.toLowerCase();
+
+    const matchesSearch = safeContent.includes(searchLower) || 
+                         safeSource.includes(searchLower);
+    
     const matchesType = filter === 'all' || clip.type === filter
     const matchesCategory = categoryFilter === 'all' || 
                            (categoryFilter === 'uncategorized' && !clip.categoryId) ||
