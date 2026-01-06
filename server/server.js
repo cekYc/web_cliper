@@ -298,8 +298,8 @@ app.patch('/api/snippets/:id/category', authenticateToken, async (req, res) => {
 });
 
 // SPA Routing - React Router için (sadece client dist varsa)
-// Express 5'te '*' yerine '(.*)' veya RegExp kullanılır
-app.get('(.*)', (req, res) => {
+// Express 5 için wildcard rotası isimlendirilmelidir. '/*' yerine '/*catchall' kullanıyoruz.
+app.get('/*catchall', (req, res) => {
     const indexPath = path.join(__dirname, '../client/dist/index.html');
     if (fs.existsSync(indexPath)) {
         res.sendFile(indexPath);
