@@ -1,10 +1,7 @@
-// Extension Config - Production'da bu URL'yi değiştirin
+// Extension Config - Production
 const CONFIG = {
-  // Development
-  // API_URL: 'http://localhost:3000'
-  
-  // Production - Render/Railway deploy ettikten sonra bu URL'yi güncelleyin
-  API_URL: 'http://localhost:3000'
+  // Production API URL
+  API_URL: 'https://web-clipper-api.onrender.com'
 };
 
 // Export for use in other scripts
