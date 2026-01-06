@@ -10,7 +10,7 @@ import ContentModal from './ContentModal'
 import CategoryModal from './CategoryModal'
 
 export default function Dashboard() {
-  const { user, logout, getAuthHeader } = useAuth()
+  const { user, logout } = useAuth()
   const { darkMode, toggleDarkMode } = useTheme()
   const [clips, setClips] = useState([])
   const [categories, setCategories] = useState([])
@@ -34,9 +34,10 @@ export default function Dashboard() {
       const res = await api.getSnippets(user.token)
       if (res.status === 401 || res.status === 403) { logout(); return }
       const data = await res.json()
-      setClips(data)
+      setClips(Array.isArray(data) ? data : [])
     } catch (err) {
       console.error('Veri çekme hatası:', err)
+      setClips([])
     } finally {
       setLoading(false)
     }
@@ -47,10 +48,11 @@ export default function Dashboard() {
       const res = await api.getCategories(user.token)
       if (res.ok) {
         const data = await res.json()
-        setCategories(data)
+        setCategories(Array.isArray(data) ? data : [])
       }
     } catch (err) {
       console.error('Kategori çekme hatası:', err)
+      setCategories([])
     }
   }
 
@@ -78,21 +80,13 @@ export default function Dashboard() {
   const saveCategory = async (categoryData) => {
     try {
       if (editingCategory) {
-        const res = await fetch(`/api/categories/${editingCategory._id}`, {
-          method: 'PUT',
-          headers: getAuthHeader(),
-          body: JSON.stringify(categoryData)
-        })
+        const res = await api.updateCategory(user.token, editingCategory._id, categoryData)
         if (res.ok) {
           const updated = await res.json()
           setCategories(categories.map(c => c._id === updated._id ? updated : c))
         }
       } else {
-        const res = await fetch('/api/categories', {
-          method: 'POST',
-          headers: getAuthHeader(),
-          body: JSON.stringify(categoryData)
-        })
+        const res = await api.createCategory(user.token, categoryData)
         if (res.ok) {
           const newCat = await res.json()
           setCategories([...categories, newCat])
@@ -108,7 +102,7 @@ export default function Dashboard() {
   const deleteCategory = async (id) => {
     if (!confirm('Bu kategoriyi silmek istediğinize emin misiniz?')) return
     try {
-      const res = await fetch(`/api/categories/${id}`, { method: 'DELETE', headers: getAuthHeader() })
+      const res = await api.deleteCategory(user.token, id)
       if (res.ok) {
         setCategories(categories.filter(c => c._id !== id))
         setClips(clips.map(clip => clip.categoryId === id ? { ...clip, categoryId: null } : clip))
