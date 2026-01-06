@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body { 
+      width: 320px; 
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 400px;
+    }
+    
+    .container {
+      padding: 24px;
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .logo-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 28px;
+    }
+    
+    .logo h2 {
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    
+    .logo p {
+      color: rgba(255,255,255,0.8);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    h3 { 
+      text-align: center; 
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    
+    input { 
+      width: 100%; 
+      padding: 14px 16px; 
+      margin-bottom: 12px; 
+      border: 2px solid #e5e7eb; 
+      border-radius: 12px;
+      font-size: 14px;
+      transition: all 0.2s;
+      outline: none;
+    }
+    
+    input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    
+    input::placeholder {
+      color: #9ca3af;
+    }
+    
+    button { 
+      width: 100%; 
+      padding: 14px; 
+      border: none; 
+      cursor: pointer; 
+      border-radius: 12px; 
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 8px;
+      transition: all 0.2s;
+    }
+    
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .btn-primary { 
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      color: white; 
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #8b5cf6 0%, #6f42c1 100%);
+      color: white;
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+    
+    .btn-danger { 
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white; 
+    }
+    
+    #status { 
+      margin-top: 16px; 
+      font-size: 13px; 
+      text-align: center; 
+      color: #10b981;
+      padding: 12px;
+      background: #ecfdf5;
+      border-radius: 10px;
+      display: none;
+    }
+    
+    #status.show {
+      display: block;
+    }
+    
+    #status.error { 
+      color: #ef4444;
+      background: #fef2f2;
+    }
+    
+    .hidden { display: none; }
+    
+    .user-info {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-radius: 12px;
+      border: 1px solid #bae6fd;
+    }
+    
+    .user-info .avatar {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+    }
+    
+    .user-info span {
+      font-weight: 600;
+      color: #1e40af;
+    }
+    
+    .user-info p {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    
+    #login-msg {
+      font-size: 12px;
+      color: #ef4444;
+      text-align: center;
+      margin-top: 12px;
+      padding: 10px;
+      background: #fef2f2;
+      border-radius: 8px;
+      display: none;
+    }
+    
+    #login-msg.show {
+      display: block;
+    }
+    
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <div class="logo-icon">🧠</div>
+      <h2>Web Clipper</h2>
+      <p>Dijital Beyniniz</p>
+    </div>
+    
+    <div class="card">
+      <div id="login-section">
+        <h3>Giriş Yap</h3>
+        <input type="text" id="username" placeholder="Kullanıcı Adı">
+        <input type="password" id="password" placeholder="Şifre">
+        <button id="loginBtn" class="btn-primary">Giriş Yap</button>
+        <div id="login-msg"></div>
+      </div>
+
+      <div id="save-section" class="hidden">
+        <div class="user-info">
+          <div class="avatar" id="user-avatar"></div>
+          <span id="display-user"></span>
+          <p>Hoş geldiniz!</p>
+        </div>
+        
+        <div class="btn-group">
+          <button id="saveBtn" class="btn-primary">📋 Seçimi Kaydet</button>
+          <button id="screenshotBtn" class="btn-secondary">📸 Alan Seçip Kaydet</button>
+          <button id="logoutBtn" class="btn-danger">Çıkış Yap</button>
+        </div>
+        
+        <div id="status"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
