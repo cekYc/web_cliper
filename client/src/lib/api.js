@@ -1,5 +1,5 @@
 // API Base URL - Production'da değişir
-const API_BASE_URL = import.meta.env.VITE_API_URL || ''
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://web-clipper-api.onrender.com'
 
 export const api = {
   // Auth
