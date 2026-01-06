@@ -161,7 +161,7 @@ app.post('/api/save', authenticateToken, async (req, res) => {
 
 // 4. LİSTELE (KORUMALI ROTA)
 // Sadece giriş yapan kullanıcının KENDİ verilerini getirir.
-app.get('/api/list', authenticateToken, async (req, res) => {
+app.get('/api/snippets', authenticateToken, async (req, res) => {
     try {
         // Snippet.find({ userId: req.user.id }) -> Sadece benimkileri bul
         const snippets = await Snippet.find({ userId: req.user.id }).sort({ timestamp: -1 });
@@ -176,7 +176,7 @@ app.listen(PORT, () => {
 });
 
 // 5. İÇERİK SİL (DELETE)
-app.delete('/api/delete/:id', authenticateToken, async (req, res) => {
+app.delete('/api/snippets/:id', authenticateToken, async (req, res) => {
     try {
         const snippetId = req.params.id;
         const userId = req.user.id;
@@ -298,7 +298,7 @@ app.patch('/api/snippets/:id/category', authenticateToken, async (req, res) => {
 });
 
 // SPA Routing - React Router için (sadece client dist varsa)
-app.get('/{*path}', (req, res) => {
+app.get('*', (req, res) => {
     const indexPath = path.join(__dirname, '../client/dist/index.html');
     if (fs.existsSync(indexPath)) {
         res.sendFile(indexPath);
