@@ -41,8 +41,12 @@ app.use(cors({
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Production'da build klasörünü serve et
-app.use(express.static(path.join(__dirname, '../client/dist')));
+// Production'da build klasörünü serve et (sadece dosyalar varsa)
+const clientDistPath = path.join(__dirname, '../client/dist');
+const fs = require('fs');
+if (fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
+}
 
 // --- VERİTABANI BAĞLANTISI ---
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/webclipper')
@@ -293,7 +297,12 @@ app.patch('/api/snippets/:id/category', authenticateToken, async (req, res) => {
     }
 });
 
-// SPA Routing - React Router için (Express 5 uyumlu)
+// SPA Routing - React Router için (sadece client dist varsa)
 app.get('/{*path}', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    const indexPath = path.join(__dirname, '../client/dist/index.html');
+    if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+    } else {
+        res.json({ message: 'Web Clipper API is running! 🚀', status: 'ok' });
+    }
 });
