@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Brain, User, Lock, ArrowRight, Sparkles } from 'lucide-react'
+import { Brain, User, Lock, ArrowRight, Sparkles, Download } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 export default function AuthScreen() {
@@ -168,6 +168,22 @@ export default function AuthScreen() {
             {isLogin ? 'Kayıt Ol' : 'Giriş Yap'}
           </button>
         </p>
+
+        {/* Firefox Extension Link */}
+        <motion.a
+          href="https://addons.mozilla.org/tr/firefox/addon/my-web-clipper/"
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="mt-6 flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-200"
+        >
+          <Download className="w-5 h-5" />
+          Firefox Uzantısını İndir
+        </motion.a>
       </motion.div>
     </div>
   )

@@ -3,15 +3,33 @@
   "name": "Benim Web Clipper'ım",
   "version": "1.0",
   "description": "Seçili alanı veya resmi sunucuya kaydeder.",
-  "permissions": ["activeTab", "scripting", "contextMenus", "storage", "tabs"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "contextMenus",
+    "storage",
+    "tabs"
+  ],
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "web-clipper@cekyc.projects",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["websiteContent"]
+      }
+    }
   },
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon.png"
   },
-  "host_permissions": ["http://localhost:3000/*", "<all_urls>"],
+  "host_permissions": [
+    "https://web-clipper-api.onrender.com/*",
+    "<all_urls>"
+  ],
   "web_accessible_resources": [
     {
       "resources": ["html2canvas.min.js"],

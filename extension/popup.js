@@ -320,7 +320,7 @@ function initScreenshotMode() {
         const capturesNeeded = Math.ceil(height / viewportHeight);
         
         const loading = document.createElement('div');
-        loading.innerHTML = `📸 Fotoğraf çekiliyor... (0/${capturesNeeded})`;
+        loading.textContent = `📸 Fotoğraf çekiliyor... (0/${capturesNeeded})`;
         loading.style.cssText = `
             position: fixed; top: 20px; right: 20px;
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
@@ -402,7 +402,7 @@ function initScreenshotMode() {
             }
             
             captureIndex++;
-            loading.innerHTML = `📸 Fotoğraf çekiliyor... (${captureIndex}/${capturesNeeded})`;
+            loading.textContent = `📸 Fotoğraf çekiliyor... (${captureIndex}/${capturesNeeded})`;
         }
         
         // Scroll'u geri al
@@ -441,7 +441,7 @@ function initScreenshotMode() {
                     loading.style.background = 'linear-gradient(135deg, #10b981, #059669)';
                     setTimeout(() => { loading.remove(); cleanup(); }, 1500);
                 } else {
-                    loading.innerHTML = '❌ Kayıt Hatası: ' + (response?.error || 'Bilinmeyen hata');
+                    loading.textContent = '❌ Kayıt Hatası: ' + (response?.error || 'Bilinmeyen hata');
                     loading.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
                     setTimeout(() => { loading.remove(); cleanup(); }, 2000);
                 }

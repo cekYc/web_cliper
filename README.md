@@ -39,7 +39,7 @@ Web'den içerik toplamanızı sağlayan modern bir web clipper uygulaması. Meti
 
 ### 1. Repoyu klonlayın
 \`\`\`bash
-git clone https://github.com/YOUR_USERNAME/web-clipper.git
+git clone https://github.com/cekYc/web-clipper.git
 cd web-clipper
 \`\`\`
 
